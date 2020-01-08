@@ -3,10 +3,7 @@ package ru.learning.courseapi.resources;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.learning.courseapi.models.Topic;
 import ru.learning.courseapi.service.TopicService;
 import java.util.List;
@@ -29,4 +26,20 @@ public class TopicController {
         if (topic.isPresent()) return ResponseEntity.status(HttpStatus.ACCEPTED).body(topic.get());
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/topics")
+    public void createTopic(@RequestBody Topic topic) {
+        topicService.createTopic(topic);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/topics/{id}")
+    public void updateTopic(@RequestBody  Topic topic, @PathVariable String id) {
+        topicService.updateTopic(id,topic);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/topics/{id}")
+    public void deleteTopic(@PathVariable String id) {
+        topicService.deleteTopic(id);
+    }
+
 }
